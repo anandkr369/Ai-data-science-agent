@@ -34,7 +34,6 @@ from langgraph.graph import StateGraph, END
 
 app = Flask(__name__)
 app.secret_key = os.getenv("FLASK_SECRET_KEY", "dev-secret-change-me")
-# app.secret_key = "this_is_A_key"
 # Where trained models (.pkl) get written to, per session.
 MODEL_DIR = os.path.join(os.path.dirname(__file__), "models_store")
 os.makedirs(MODEL_DIR, exist_ok=True)
@@ -52,7 +51,6 @@ SESSIONS = {}
 # NEVER hardcode API keys in source. Set GOOGLE_API_KEY as an environment
 # variable (in Render: Dashboard -> your service -> Environment).
 google_api_key = os.getenv("GOOGLE_API_KEY")
-# google_api_key="AIzaSyBQL_XsGCadZbxMSIQWmzOmkK7E4iGqQwA"
 llm = None
 if google_api_key:
     llm = ChatGoogleGenerativeAI(
