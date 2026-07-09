@@ -1,0 +1,14 @@
+flask==3.0.3
+gunicorn==22.0.0
+pandas==2.2.2
+numpy==1.26.4
+scikit-learn==1.5.1
+joblib==1.4.2
+langchain-core==0.2.38
+langchain-community==0.2.16
+langchain-google-genai==1.0.10
+langchain-huggingface==0.0.3
+langgraph==0.2.16
+faiss-cpu==1.8.0.post1
+sentence-transformers==3.0.1
+python-dotenv==1.0.1

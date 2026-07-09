@@ -1,0 +1,99 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8" />
+<meta name="viewport" content="width=device-width, initial-scale=1.0" />
+<title>Agentic Data Science Assistant</title>
+<link rel="stylesheet" href="{{ url_for('static', filename='css/style.css') }}" />
+<script src="https://cdn.plot.ly/plotly-2.32.0.min.js"></script>
+</head>
+<body>
+
+<header class="topbar">
+  <div class="topbar-inner">
+    <div class="brand">
+      <span class="brand-mark">⌁</span>
+      <div>
+        <h1>Agentic Data Science Assistant</h1>
+        <p class="subtitle">LangGraph &middot; LangChain &middot; Gemini &middot; scikit-learn</p>
+      </div>
+    </div>
+    <div class="pipeline-track" aria-label="Agent pipeline">
+      <span class="step" data-step="eda">EDA</span>
+      <span class="arrow">→</span>
+      <span class="step" data-step="ml">ML</span>
+      <span class="arrow">→</span>
+      <span class="step" data-step="insight">Insight</span>
+      <span class="arrow">→</span>
+      <span class="step" data-step="chat">Chat</span>
+    </div>
+  </div>
+</header>
+
+{% if not llm_configured %}
+<div class="banner">
+  No <code>GOOGLE_API_KEY</code> configured on the server &mdash; EDA and ML will still run, but the Insight
+  and Chat agents will be skipped until it's set as an environment variable.
+</div>
+{% endif %}
+
+<main class="layout">
+
+  <section class="panel upload-panel">
+    <h2>01 &nbsp;Upload dataset</h2>
+    <p class="hint">Drop a CSV. The last column is treated as the prediction target.</p>
+    <div id="dropzone" class="dropzone">
+      <input type="file" id="fileInput" accept=".csv" hidden />
+      <div class="dropzone-body">
+        <span class="dz-icon">⇪</span>
+        <span id="dzLabel">Click to choose a CSV, or drag one here</span>
+      </div>
+    </div>
+    <button id="uploadBtn" class="btn primary" disabled>Run agents</button>
+    <div id="uploadStatus" class="status"></div>
+  </section>
+
+  <section id="results" class="results hidden">
+
+    <div class="panel">
+      <h2>Dataset preview</h2>
+      <div id="previewTable" class="table-scroll"></div>
+    </div>
+
+    <div class="panel">
+      <h2>02 &nbsp;EDA Agent</h2>
+      <pre id="edaSummary" class="summary-box"></pre>
+      <div id="corrChart" class="chart"></div>
+    </div>
+
+    <div class="panel">
+      <h2>03 &nbsp;ML Agent</h2>
+      <div id="mlMeta" class="meta-row"></div>
+      <pre id="mlSummary" class="summary-box"></pre>
+      <div id="fiChart" class="chart"></div>
+      <a id="downloadModelLink" class="btn secondary hidden" href="/api/download_model">
+        ⬇ Download trained model (.pkl)
+      </a>
+    </div>
+
+    <div class="panel">
+      <h2>04 &nbsp;Insight Agent</h2>
+      <div id="insightSummary" class="prose"></div>
+    </div>
+
+    <div class="panel">
+      <h2>05 &nbsp;Dataset Chat Agent</h2>
+      <div id="chatLog" class="chat-log"></div>
+      <form id="chatForm" class="chat-form">
+        <input type="text" id="chatInput" placeholder="Ask anything about the dataset…" autocomplete="off" />
+        <button type="submit" class="btn primary">Ask</button>
+      </form>
+    </div>
+
+  </section>
+
+</main>
+
+<script src="{{ url_for('static', filename='js/app.js') }}"></script>
+</body>
+</html>
